@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "545019575146",
+    "project_id": "e-learning-app-fc26f",
+    "storage_bucket": "e-learning-app-fc26f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545019575146:android:1bf581e99cdcb0e1574313",
+        "android_client_info": {
+          "package_name": "com.example.e_learning_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4qOlRQ0Edvnmh3zhjz4LyVKaTSlhdL9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
