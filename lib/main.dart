@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
                   child: CircularProgressIndicator(
                     color: Colors.white,
                   ));
+              // el sha
             } else if (snapshot.hasError) {
               return showSnackBar(context, "Something went wrong");
             } else if (snapshot.hasData) {
