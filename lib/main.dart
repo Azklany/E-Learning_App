@@ -5,18 +5,24 @@ import 'package:e_learning_app/shared/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import this package
+import 'package:flutter_riverpod/flutter_riverpod.dart' as pg;
 import 'package:provider/provider.dart';
 import 'login.dart';
 
 ColorScheme myColorScheme =
-    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 66, 67, 136));
+ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 66, 67, 136));
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  // Lock the orientation to portrait mode
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  runApp( const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -38,7 +44,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: myColorScheme.primary.withOpacity(.8),
                 foregroundColor: Colors.white),
             iconTheme:
-                const IconThemeData().copyWith(color: myColorScheme.onPrimary),
+            const IconThemeData().copyWith(color: myColorScheme.onPrimary),
             scaffoldBackgroundColor: myColorScheme.primaryFixed),
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(
@@ -47,8 +53,8 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                   child: CircularProgressIndicator(
-                color: Colors.white,
-              ));
+                    color: Colors.white,
+                  ));
             } else if (snapshot.hasError) {
               return showSnackBar(context, "Something went wrong");
             } else if (snapshot.hasData) {

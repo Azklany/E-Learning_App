@@ -226,7 +226,7 @@ class _LoginState extends State<Login> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          googleSignIn.googleLogin();
+                          googleSignIn.googlelogin();
                         },
                         child: Container(
                           padding: const EdgeInsets.all(8),

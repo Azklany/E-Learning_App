@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_print
 
+import 'package:e_learning_app/screens/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
 
 class Video extends StatefulWidget {
   final String videoId;
@@ -23,15 +25,15 @@ class Video extends StatefulWidget {
     required this.goBack,
     required this.addVideo,
   }) : _controller = YoutubePlayerController(
-          initialVideoId: videoId,
-          flags: const YoutubePlayerFlags(
-            enableCaption: true,
-            showLiveFullscreenButton: true,
-            controlsVisibleAtStart: true,
-            autoPlay: false,
-            mute: false,
-          ),
-        );
+    initialVideoId: videoId,
+    flags: const YoutubePlayerFlags(
+      enableCaption: true,
+      showLiveFullscreenButton: true,
+      controlsVisibleAtStart: true,
+      autoPlay: false,
+      mute: false,
+    ),
+  );
 
   @override
   State<Video> createState() => _VideoState();
@@ -39,6 +41,7 @@ class Video extends StatefulWidget {
 
 class _VideoState extends State<Video> {
   bool isFullScreen = false;
+
   void fullScreenListener() {
     // Check if fullscreen mode has changed
     if (widget._controller.value.isFullScreen != isFullScreen) {
@@ -48,21 +51,6 @@ class _VideoState extends State<Video> {
     }
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Add a listener to detect changes in fullscreen mode
-  //   widget._controller.addListener(fullScreenListener);
-  // }
-
-  // @override
-  // void dispose() {
-  //   // Remove the listener to avoid memory leaks
-  //   widget._controller.removeListener(fullScreenListener);
-  //   widget._controller.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     widget.addVideo(widget.videoId);
@@ -71,23 +59,23 @@ class _VideoState extends State<Video> {
       appBar: isFullScreen
           ? null
           : AppBar(
-              backgroundColor: Colors.redAccent,
-              title: Text(
-                widget.videoTitle,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              centerTitle: true, // Align title to center
-            ),
+        backgroundColor: Colors.redAccent,
+        title: Text(
+          widget.videoTitle,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Align title to center
+      ),
       body: Column(
         children: [
           // Video Player with defined aspect ratio
           AspectRatio(
             aspectRatio: isFullScreen
                 ? MediaQuery.of(context).size.width /
-                    MediaQuery.of(context).size.height
+                MediaQuery.of(context).size.height
                 : 16 / 9,
             child: YoutubePlayer(
               bottomActions: [
@@ -129,25 +117,43 @@ class _VideoState extends State<Video> {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.videoTitle,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10.0),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.videoTitle,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        widget.description,
-                        style: const TextStyle(color: Colors.white70),
-                      ),
-                      const SizedBox(
-                          height: 20), // Add some space before buttons
-                    ],
+                        const SizedBox(height: 10),
+                        Text(
+                          widget.description,
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                        const SizedBox(height: 10), // Add some space before the button
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => QuizScreen()),
+                            );
+                          },
+                          child: const Text('Take Quiz'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.redAccent, // Text color
+                          ),
+                        ),
+                        const SizedBox(
+                            height: 20), // Add some space before buttons
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -1,8 +1,5 @@
-// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
-
 import 'dart:io';
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_learning_app/drawer/mydrawer.dart';
 import 'package:e_learning_app/shared/data_from_firestore.dart';
@@ -12,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' show basename;
-
 import '../shared/color.dart';
 import '../shared/snackBar.dart';
 import '../shared/user_image_from_firestore.dart';
@@ -32,20 +28,29 @@ class _ProfilePageState extends State<ProfilePage> {
   int random = Random().nextInt(9999999);
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  uploadImage(ImageSource imageSource) async {
-    final pickedImg = await ImagePicker().pickImage(source: imageSource);
+  Future<void> uploadImage(ImageSource imageSource) async {
     try {
+      final pickedImg = await ImagePicker().pickImage(source: imageSource);
       if (pickedImg != null) {
         setState(() {
           imgPath = File(pickedImg.path);
           imgName = basename(pickedImg.path);
           imgName = "$random$imgName";
         });
+
+        // Upload image to Firebase Storage
+        final storageRef = FirebaseStorage.instance.ref(imgName);
+        await storageRef.putFile(imgPath!);
+
+        // Get image URL and update Firestore
+        url = await storageRef.getDownloadURL();
+        await users.doc(credential!.uid).update({"imgLink": url});
+        showSnackBar(context, "Image uploaded successfully!");
       } else {
-        showSnackBar(context, "NO img selected");
+        showSnackBar(context, "No image selected");
       }
     } catch (e) {
-      showSnackBar(context, "Error => $e");
+      showSnackBar(context, "Error uploading image: $e");
     }
   }
 
@@ -54,158 +59,116 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       drawer: const MyDrawer(),
       appBar: AppBar(
+        title: const Text('Profile Page'),
         actions: [
-          TextButton.icon(
+          IconButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               if (!mounted) return;
-              // Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, '/login');
             },
-            label: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
-            ),
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
+            icon: const Icon(Icons.logout),
           ),
         ],
-        title: const Text('Profile Page'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(22.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromARGB(255, 78, 91, 110),
-                  ),
-                  child: Stack(
-                    children: [
-                      imgPath == null
-                          ? const ImgUser()
-                          : ClipOval(
-                              child: Image.file(
-                                imgPath!,
-                                width: 145,
-                                height: 145,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                      Positioned(
-                        bottom: -12,
-                        left: 92,
-                        child: IconButton(
-                          onPressed: () async {
-                            await uploadImage(ImageSource.gallery);
-                            if (imgPath != null) {
-                              final storageRef =
-                                  FirebaseStorage.instance.ref(imgName);
-                              await storageRef.putFile(imgPath!);
-                              url = await storageRef.getDownloadURL();
-                              users.doc(credential!.uid).update({
-                                "imgLink": url,
-                              });
-                            }
-                          },
-                          icon: const Icon(Icons.add_a_photo),
-                          color: const Color.fromARGB(255, 94, 115, 128),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 33,
-              ),
-              Center(
-                  child: Container(
-                padding: const EdgeInsets.all(11),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 131, 177, 255),
-                    borderRadius: BorderRadius.circular(11)),
-                child: const Text(
-                  "Info from firebase Auth",
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
-                ),
-              )),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  Text(
-                    "Email: ${credential!.email} ",
-                    style: const TextStyle(
-                      fontSize: 17,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  Text(
-                    "Created date: ${DateFormat('MMMM d,y').format(credential!.metadata.creationTime!)}     ",
-                    style: const TextStyle(
-                      fontSize: 17,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 11,
-                  ),
-                  Text(
-                    "Last Signed In: ${DateFormat('MMMM d,y').format(credential!.metadata.lastSignInTime!)} ",
-                    style: const TextStyle(
-                      fontSize: 17,
-                    ),
-                  ),
-                  Center(
-                      child: TextButton(
-                    onPressed: () {
-                      CollectionReference users =
-                          FirebaseFirestore.instance.collection('users');
-                      credential!.delete();
-                      users.doc(credential!.uid).delete();
-                      // Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Delete User',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  )),
-                ],
-              ),
-              const SizedBox(
-                height: 55,
-              ),
-              Center(
-                  child: Container(
-                      padding: const EdgeInsets.all(11),
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 131, 177, 255),
-                          borderRadius: BorderRadius.circular(11)),
-                      child: const Text(
-                        "Info from firebase firestore",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ))),
-              GetDataFromFirestore(
-                documentId: credential!.uid,
-              ),
+              _buildProfileImageSection(),
+              const SizedBox(height: 24),
+              _buildAccountInfoSection(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildProfileImageSection() {
+    return Center(
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          CircleAvatar(
+            radius: 70,
+            backgroundColor: Colors.grey.shade300,
+            backgroundImage: imgPath != null ? FileImage(imgPath!) : null,
+            child: imgPath == null ? const ImgUser() : null,
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_a_photo, color: Colors.blueGrey),
+            onPressed: () async {
+              await uploadImage(ImageSource.gallery);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccountInfoSection() {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Account Info",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            _buildInfoTile("Email", credential?.email ?? "Not available"),
+            _buildInfoTile(
+              "Created Date",
+              credential?.metadata.creationTime != null
+                  ? DateFormat('MMMM d, y').format(credential!.metadata.creationTime!)
+                  : "Not available",
+            ),
+            _buildInfoTile(
+              "Last Signed In",
+              credential?.metadata.lastSignInTime != null
+                  ? DateFormat('MMMM d, y').format(credential!.metadata.lastSignInTime!)
+                  : "Not available",
+            ),
+            const SizedBox(height: 16),
+            GetDataFromFirestore(documentId: credential!.uid),
+            Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (credential != null) {
+                    await credential!.delete();
+                    await users.doc(credential!.uid).delete();
+                    Navigator.pushReplacementNamed(context, '/login');
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text('Delete User'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoTile(String title, String subtitle) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(subtitle),
     );
   }
 }
