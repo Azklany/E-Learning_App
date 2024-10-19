@@ -14,6 +14,7 @@ class ProgrammingCourse {
   final String description;
   final String link;
   final double price;
+  final String cat;
   final List<String> outlines;
   final List<Category> categories;
   List<bool> completed = [];
@@ -27,5 +28,6 @@ class ProgrammingCourse {
     required this.duration,
     required this.description,
     required this.link,
+    required this.cat
   });
 }

@@ -11,6 +11,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PL93xoMrxRJIsYc9L0XBSaiiuq01JTMQ_o&si=AdrGA4jQQviMa4J5',
     price: 100,
+    cat: "",
     outlines: [
       'Introduction to Dart',
       'Variables and Data Types',
@@ -33,6 +34,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PL93xoMrxRJIvtIXjAiX15wcyNv-LOWZa9&si=Z-nm8aFt1DSNP30l',
     price: 130,
+    cat: "",
     outlines: [
       'Introduction to Flutter',
       'Building UI with Widgets',
@@ -51,6 +53,8 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PL1DUmTEdeA6K7rdxKiWJq6JIxTvHalY8f&si=b0iEygCUsrSATtig',
     price: 170,
+    cat: "",
+
     outlines: [
       'Introduction to Java',
       'Variables and Data Types',
@@ -73,6 +77,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PL_c9BZzLwBRJLm0QETVj_XcN4jRsV4LkR&si=HBKBiXuXqqnnI4yk',
     price: 250,
+    cat: "",
     outlines: [
       'Setting up Android Studio',
       'Building User Interfaces',
@@ -91,6 +96,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLoP3S2S1qTfCUdNazAZY1LFALcUr0Vbs9&si=YbZZO35VPcu9DvLv',
     price: 80,
+    cat: "python",
     outlines: [
       'Introduction to Python',
       'Control Flow',
@@ -109,6 +115,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLynpHWDBs7h1e8dkxgO6jwUHaNb3UTGwQ&si=3JQr27-bLnzdRTJZ',
     price: 400,
+    cat: "Python",
     outlines: [
       'Introduction to Backend Development and Python',
       'Setting Up Your Python Development Environment',
@@ -129,6 +136,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLYyqC4bNbCIdSZ-JayMLl4WO2Cr995vyS&si=z-SMmqB01cNO2inn',
     price: 260,
+    cat: "HTML",
     outlines: [
       'Introduction to React',
       'JSX and Components',
@@ -147,6 +155,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLpSOK_rijUlnoSM5bIlfmuKa3H7XaqAyF&si=knvz_c7U4ZQRhMJv',
     price: 187,
+    cat: "JavaScript",
     outlines: [
       'Introduction to Node.js',
       'Building APIs with Express.js',
@@ -165,6 +174,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLPBnj6azlABaelnh4bcmJ7VZNB_UIvhRt&si=-EMRWa-hUf3o2PYy',
     price: 100,
+    cat: "python",
     outlines: [
       'Introduction to API Concepts and RESTful Architecture',
       'Setting Up Flask and Creating Your First API',
@@ -189,6 +199,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLtsZ69x5q-X9j44MdSX-NGuOhGXOY0aqH&si=D0nJptQuvwsfK7Tb',
     price: 199,
+    cat: "python",
     outlines: [
       'Introduction to Machine Learning',
       'Supervised vs Unsupervised Learning',
@@ -207,6 +218,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLuNK096Q36cY97nBykqIRGGM2UiFtq4OQ&si=zYeIOIkXJJEsS9e1',
     price: 200,
+    cat: "python",
     outlines: [
       'Introduction to Artificial Intelligence',
       'Machine Learning Concepts',
@@ -225,6 +237,7 @@ List<ProgrammingCourse> programmingCourses = [
     link:
         'https://youtube.com/playlist?list=PLMYF6NkLrdN9oTARJ9BE1EChtcsPjPEZQ&si=o1V-hXKjqiq6gnGG',
     price: 210,
+    cat: "MySQL",
     outlines: [
       'Introduction to Data Science',
       'Data Analysis with Pandas',
@@ -238,6 +251,7 @@ List<ProgrammingCourse> programmingCourses = [
     id: 13,
     name: 'Web Development with HTML, CSS, and JavaScript',
     duration: 110,
+    cat: "HTML",
     description:
         'Learn to build responsive websites using HTML, CSS, and JavaScript.',
     link:
@@ -256,6 +270,8 @@ List<ProgrammingCourse> programmingCourses = [
     id: 14,
     name: 'SQL for Beginners',
     duration: 100,
+    cat: "DevOps",
+
     description: 'Understand how to manage and query databases using SQL.',
     link:
         'https://youtube.com/playlist?list=PLxbVBWjVdAEj8TmOUKPG0avUmLqSoQOpf&si=wXVAdv_1jNtHyClT',
@@ -273,6 +289,7 @@ List<ProgrammingCourse> programmingCourses = [
     id: 15,
     name: 'DevOps Foundations',
     duration: 170,
+    cat: "DevOps",
     description:
         'Learn the basics of DevOps practices and tools like Docker, Kubernetes, and CI/CD pipelines.',
     link:

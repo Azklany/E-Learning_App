@@ -4,6 +4,8 @@ import 'package:e_learning_app/screens/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../model/programming_course.dart';
+
 
 class Video extends StatefulWidget {
   final String videoId;
@@ -14,6 +16,8 @@ class Video extends StatefulWidget {
   final void Function(int index) goNext;
   final void Function(int index) goBack;
   final void Function(String id) addVideo;
+  final ProgrammingCourse programmingCourse;
+
 
   Video({
     super.key,
@@ -24,6 +28,7 @@ class Video extends StatefulWidget {
     required this.goNext,
     required this.goBack,
     required this.addVideo,
+    required this.programmingCourse,
   }) : _controller = YoutubePlayerController(
     initialVideoId: videoId,
     flags: const YoutubePlayerFlags(
@@ -141,7 +146,7 @@ class _VideoState extends State<Video> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => QuizScreen()),
+                              MaterialPageRoute(builder: (context) => QuizScreen(programmingCourse: widget.programmingCourse,)),
                             );
                           },
                           child: const Text('Take Quiz'),

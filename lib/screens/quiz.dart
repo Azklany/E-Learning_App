@@ -3,9 +3,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
+import '../model/programming_course.dart';
+
 class QuizScreen extends StatefulWidget {
   @override
   _QuizScreenState createState() => _QuizScreenState();
+  final ProgrammingCourse programmingCourse;
+
+  const QuizScreen({super.key, required this.programmingCourse});
+
 }
 
 class _QuizScreenState extends State<QuizScreen> {
@@ -24,7 +30,9 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Future<void> fetchQuizData() async {
-    final url = Uri.parse('https://quizapi.io/api/v1/questions?apiKey=qI2hfjSRAlAzJ3JYGZ3dKhdHI5jzTWNTUGeOqh5d&limit=10'); // Replace with your actual API key
+    String cat = widget.programmingCourse.cat;
+    final url = Uri.parse('https://quizapi.io/api/v1/questions?apiKey=QedEYkqZhYiJUnN0KYVjYFHUkME4tqi3Jg3GGP39&limit=10&tags=$cat');
+    print('https://quizapi.io/api/v1/questions?apiKey=QedEYkqZhYiJUnN0KYVjYFHUkME4tqi3Jg3GGP39&limit=10&tags=$cat');// Replace with your actual API key
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -98,7 +106,8 @@ class _QuizScreenState extends State<QuizScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst); // Navigate back to the main screen
+                Navigator.pop(context);
+                 Navigator.pop(context);// Navigate back to the main screen
               },
               child: Text('OK'),
             ),

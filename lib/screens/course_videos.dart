@@ -33,8 +33,7 @@ class _CourseVideosState extends State<CourseVideos> {
 
   @override
   void initState() {
-    super.initState();
-    fetchYouTubePlaylistVideos();
+    super.initState();fetchYouTubePlaylistVideos();
     listenToVideos();
   }
 
@@ -99,6 +98,7 @@ class _CourseVideosState extends State<CourseVideos> {
     index < videoUrls.length - 1
         ? Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => Video(
+
                   addVideo: addVideo,
                   goBack: goBack,
                   goNext: goNext,
@@ -106,6 +106,7 @@ class _CourseVideosState extends State<CourseVideos> {
                   videoTitle: videoTitless[index + 1],
                   index: index + 1,
                   videoId: videoIds[index + 1],
+              programmingCourse: widget.programmingCourse,
                 )))
         : null;
   }
@@ -121,6 +122,7 @@ class _CourseVideosState extends State<CourseVideos> {
                   videoTitle: videoTitless[index - 1],
                   index: index - 1,
                   videoId: videoIds[index - 1],
+              programmingCourse: widget.programmingCourse,
                 )))
         : null;
   }
@@ -229,12 +231,14 @@ class _CourseVideosState extends State<CourseVideos> {
                       await Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => Video(
                                 addVideo: addVideo,
+
                                 goBack: goBack,
                                 goNext: goNext,
                                 description: videoDescriptions[index],
                                 videoTitle: videoTitless[index],
                                 index: index,
                                 videoId: videoIds[index],
+                            programmingCourse: widget.programmingCourse,
                               )));
                     },
                   ),
