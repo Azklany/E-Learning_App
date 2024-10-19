@@ -5,8 +5,6 @@ import 'package:e_learning_app/shared/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Import this package
-import 'package:flutter_riverpod/flutter_riverpod.dart' as pg;
 import 'package:provider/provider.dart';
 import 'login.dart';
 
@@ -18,11 +16,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  // Lock the orientation to portrait mode
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  runApp( const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
